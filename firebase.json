@@ -1,0 +1,29 @@
+{
+  "flutter": {
+    "platforms": {
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "teklif-36a44",
+          "configurations": {
+            "android": "1:214079395019:android:bb0d2471bb32fab850b74e",
+            "ios": "1:214079395019:ios:b3dead193ad4d07650b74e",
+            "macos": "1:214079395019:ios:b3dead193ad4d07650b74e",
+            "web": "1:214079395019:web:c2a21e2f543836a450b74e",
+            "windows": "1:214079395019:web:81b3e7ad8157df2d50b74e"
+          }
+        }
+      },
+      "android": {
+        "default": {
+          "projectId": "teklif-36a44",
+          "appId": "1:214079395019:android:bb0d2471bb32fab850b74e",
+          "fileOutput": "android/app/google-services.json"
+        }
+      }
+    }
+  },
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  }
+}

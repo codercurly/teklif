@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "214079395019",
+    "project_id": "teklif-36a44",
+    "storage_bucket": "teklif-36a44.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:214079395019:android:bb0d2471bb32fab850b74e",
+        "android_client_info": {
+          "package_name": "com.teklif.teklif"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6BwjZFe3twHV1B1w-p3HE1WQf3MYB8Fc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
