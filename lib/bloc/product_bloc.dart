@@ -170,93 +170,9 @@ class ProductBloc extends Bloc<AddProductEvent, ProductState> {
 
 
 
-  Future<void> _onUploadImage(
-      UploadImageEvent event,
-      Emitter<ProductState> emit,
-      ) async {
-    emit(AddProductLoading());
-
-    try {
-      User? user = auth.currentUser;
-      if (user == null) {
-        throw Exception('Kullanıcı oturumu açmamış');
-      }
-
-      // Dosyayı Firebase Storage'a yükle
-      String downloadUrl = await uploadImageToFirebase(event.imagePath);
-
-      emit(UploadImageSuccess(downloadUrl: downloadUrl));
-    } catch (e) {
-      String errorMessage = e.toString().replaceFirst('Exception: ', '');
-      print('Resim yükleme hatası: $errorMessage');
-      emit(AddProductFailure(error: errorMessage));
-    }
-  }
-
-
-
   // Rastgele dosya adı oluşturma işlevi
-  String generateFileName() {
-    String randomChars = 'abcdefghijklmnopqrstuvwxyz0123456789';
-    String fileName = '';
-    for (int i = 0; i < 10; i++) {
-      fileName +=
-          randomChars.characters.elementAt(Random().nextInt(randomChars.length));
-    }
-    fileName += '.jpg'; // Uzantıyı ekleyin veya dosya türüne göre ayarlayın
-    return fileName;
-  }
-
-  Future<bool> _checkProductCodeExists(String productCode) async {
-    try {
-      QuerySnapshot query = await firestore
-          .collection('products')
-          .where('productCode', isEqualTo: productCode)
-          .get();
-      return query.docs.isNotEmpty;
-    } catch (e) {
-      return false;
-    }
-  }
-
-
-  Future<void> _fetchProducts(
-      FetchProductEvent event,
-      Emitter<ProductState> emit,
-      ) async {
-    emit(FetchProductLoading());
-
-    try {
-      if (!authBloc.userState()) {
-        emit(ProductAuthFailure(authError: true));
-        emit(FetchProductFailure(
-            error: "Oturumunuzun süresi doldu. Lütfen giriş yapın"));
-        return;
-      }
-
-      User? user = auth.currentUser;
-      QuerySnapshot query = await firestore
-          .collection("products")
-          .where("userId", isEqualTo: user?.uid)
-          .get();
-
-      if (query.docs.isNotEmpty) {
-        List<Map<String, dynamic>> productData = query.docs.map((doc) {
-          Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-          data['id'] = doc.id;  // Döküman UID'sini ekliyoruz
-          return data;
-        }).toList();
-
-        emit(FetchProductSuccess(productData: productData));
-      } else {
-        emit(FetchProductFailure(error: "Müşteri bulunamadı"));
-      }
-    } catch (e) {
-      emit(FetchProductFailure(error: "Müşteri bilgileri yüklenemedi"));
-    }
-  }
-
-
+ 
+  
 
   Future<void> _onFetchProduct(
       FetchOneProductEvent event, Emitter<ProductState> emit) async {
