@@ -91,56 +91,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  Future<void> _mapLoginEventToState(LoginEvent event, Emitter<AuthState> emit) async {
-    emit(AuthLoading()); // Giriş yaparken yükleme durumu
-
-    try {
-      final userCredential = await _firebaseAuth.signInWithEmailAndPassword(
-        email: event.email,
-        password: event.password,
-      );
-
-      final user = userCredential.user;
-      if (user != null) {
-        // Kullanıcının Firestore'daki belgesini al
-        final userDoc = await _firebaseFirestore.collection('users').doc(user.uid).get();
-        if (userDoc.exists) {
-          final role = userDoc['role']; // Kullanıcının rolünü al
-
-          // Kullanıcının Firebase ID token'ını alma örneği
-          final idTokenResult = await user.getIdToken();
-          print("tokenn " + idTokenResult!);
-
-          // AuthSuccess durumunu emit et, rol ve token ile birlikte
-          emit(AuthSuccess(uid: user.uid, role: role));
-        } else {
-          emit(AuthFailure(error: 'User document not found'));
-        }
-      } else {
-        emit(AuthFailure(error: 'Failed to sign in'));
-      }
-    } catch (e) {
-      emit(AuthFailure(error: e.toString()));
-    }
-  }
-
-  Future<void> _mapLogoutEventToState(LogoutEvent event, Emitter<AuthState> emit) async {
-    emit(AuthLoading()); // Çıkış yaparken yükleme durumu
-
-    try {
-      await _firebaseAuth.signOut();
-      emit(AuthLoggedOut());
-    } catch (e) {
-      emit(AuthFailure(error: e.toString()));
-    }
-  }
-
-
-
-  bool userState() {
-    User? user = _firebaseAuth.currentUser;
-    return user != null;
-  }
 
 
 }
